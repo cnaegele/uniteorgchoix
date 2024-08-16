@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <UniteOrgChoix />
+      <Suspense><UniteOrgChoix /></Suspense>
     </v-main>
   </v-app>
 </template>

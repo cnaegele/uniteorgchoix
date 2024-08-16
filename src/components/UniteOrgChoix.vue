@@ -288,95 +288,293 @@
 
 </template>
   
-  <script setup>
-  import { ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
+import { getUnitesOrgListe } from '../axioscalls.js'
+const unitesOrgTree = ref([])
+const unitesOrgListe = await getUnitesOrgListe()
+//console.log(unitesOrgListe)
 
-  const panelN0 = ref([0])
-  const panelN1 = ref([])
-    
-  const unitesOrg = 
-    {
-      nom: 'Ville de Lausanne',
-      enfants: [
-            {
-                nom:'Direction 1',
-                enfants: [
-                    {
-                        nom: 'Service 1-1',
-                        enfants: [
-                            {
-                                nom: 'Goéland',
-                                enfants: [
-                                    {
-                                    nom: 'Goéland Dev Team',
+const transforUOListe2UOTree = (unitesOrgListe) => {
+    let aDummyTree = []
+    let dummyTreeN0 = [], dummyTreeN1 = [], dummyTreeN2 = []
+    let dummyTreeN3 = [], dummyTreeN4 = [], dummyTreeN5 = []
+    let dummyTreeN6 = [], dummyTreeN7 = [], dummyTreeN8 = []
+    let iduoparente
+
+
+
+    //niveau0
+    dummyTreeN0 = unitesOrgListe.reduce((aels, uniteOrg) => {
+        if (uniteOrg.iduoparente === null) {
+            aels.push(uniteOrg);
+        }
+        return aels;
+    }, [])
+
+    for (let in0=0; in0<dummyTreeN0.length; in0++) {
+        const uoN0 = {
+            id: dummyTreeN0[in0].iduniteorg,
+            nom: dummyTreeN0[in0].nomuniteorg,
+            description: dummyTreeN0[in0].descriptionuniteorg,
+            bcache: dummyTreeN0[in0].descriptionuniteorg,
+            enfants: []
+        }
+        aDummyTree.push(uoN0)
+        //console.log(aDummyTree)
+
+        iduoparente = dummyTreeN0[in0].iduniteorg
+        //niveau1
+        dummyTreeN1 = unitesOrgListe.reduce((aels, uniteOrg) => {
+            if (uniteOrg.iduoparente == iduoparente) {
+                aels.push(uniteOrg);
+            }
+            return aels;
+        }, [])
+        //console.log(dummyTreeN1)
+
+        for (let in1=0; in1<dummyTreeN1.length; in1++) {
+            const uoN1 = {
+                id: dummyTreeN1[in1].iduniteorg,
+                nom: dummyTreeN1[in1].nomuniteorg,
+                description: dummyTreeN1[in1].descriptionuniteorg,
+                bcache: dummyTreeN1[in1].descriptionuniteorg,
+                enfants: []
+            }
+            aDummyTree[in0].enfants.push(uoN1)
+
+            iduoparente = dummyTreeN1[in1].iduniteorg
+            //niveau2
+            dummyTreeN2 = unitesOrgListe.reduce((aels, uniteOrg) => {
+                if (uniteOrg.iduoparente == iduoparente) {
+                    aels.push(uniteOrg);
+                }
+                return aels;
+            }, [])
+            //console.log(dummyTreeN2)
+
+            for (let in2=0; in2<dummyTreeN2.length; in2++) {
+                const uoN2 = {
+                    id: dummyTreeN2[in2].iduniteorg,
+                    nom: dummyTreeN2[in2].nomuniteorg,
+                    description: dummyTreeN2[in2].descriptionuniteorg,
+                    bcache: dummyTreeN2[in2].descriptionuniteorg,
+                    enfants: []
+                }
+                aDummyTree[in0].enfants[in1].enfants.push(uoN2)
+
+                iduoparente = dummyTreeN2[in2].iduniteorg
+                //niveau3
+                dummyTreeN3 = unitesOrgListe.reduce((aels, uniteOrg) => {
+                    if (uniteOrg.iduoparente == iduoparente) {
+                        aels.push(uniteOrg);
+                    }
+                    return aels;
+                }, [])
+                //console.log(dummyTreeN3)
+                
+                for (let in3=0; in3<dummyTreeN3.length; in3++) {
+                    const uoN3 = {
+                        id: dummyTreeN3[in3].iduniteorg,
+                        nom: dummyTreeN3[in3].nomuniteorg,
+                        description: dummyTreeN3[in3].descriptionuniteorg,
+                        bcache: dummyTreeN3[in3].descriptionuniteorg,
+                        enfants: []
+                    }
+                    aDummyTree[in0].enfants[in1].enfants[in2].enfants.push(uoN3)
+
+                    iduoparente = dummyTreeN3[in3].iduniteorg
+                    //niveau4
+                    dummyTreeN4 = unitesOrgListe.reduce((aels, uniteOrg) => {
+                        if (uniteOrg.iduoparente == iduoparente) {
+                            aels.push(uniteOrg);
+                        }
+                        return aels;
+                    }, [])
+                    //console.log(dummyTreeN4)
+
+                    for (let in4=0; in4<dummyTreeN4.length; in4++) {
+                        const uoN4 = {
+                            id: dummyTreeN4[in4].iduniteorg,
+                            nom: dummyTreeN4[in4].nomuniteorg,
+                            description: dummyTreeN4[in4].descriptionuniteorg,
+                            bcache: dummyTreeN4[in4].descriptionuniteorg,
+                            enfants: []
+                        }
+                        aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants.push(uoN4)
+
+                        iduoparente = dummyTreeN4[in4].iduniteorg
+                        //niveau5
+                        dummyTreeN5 = unitesOrgListe.reduce((aels, uniteOrg) => {
+                            if (uniteOrg.iduoparente == iduoparente) {
+                                aels.push(uniteOrg);
+                            }
+                            return aels;
+                        }, [])
+                        //console.log(dummyTreeN5)
+
+                        for (let in5=0; in5<dummyTreeN5.length; in5++) {
+                            const uoN5 = {
+                                id: dummyTreeN5[in5].iduniteorg,
+                                nom: dummyTreeN5[in5].nomuniteorg,
+                                description: dummyTreeN5[in5].descriptionuniteorg,
+                                bcache: dummyTreeN5[in5].descriptionuniteorg,
+                                enfants: []
+                            }
+                            aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants.push(uoN5)
+
+                            iduoparente = dummyTreeN5[in5].iduniteorg
+                            //niveau6
+                            dummyTreeN6 = unitesOrgListe.reduce((aels, uniteOrg) => {
+                                if (uniteOrg.iduoparente == iduoparente) {
+                                    aels.push(uniteOrg);
+                                }
+                                return aels;
+                            }, [])
+                            //console.log(dummyTreeN6)
+
+                            for (let in6=0; in6<dummyTreeN6.length; in6++) {
+                                const uoN6 = {
+                                    id: dummyTreeN6[in6].iduniteorg,
+                                    nom: dummyTreeN6[in6].nomuniteorg,
+                                    description: dummyTreeN6[in6].descriptionuniteorg,
+                                    bcache: dummyTreeN6[in6].descriptionuniteorg,
                                     enfants: []
                                 }
+                                aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants[in5].enfants.push(uoN6)
 
-                                ]
+                                iduoparente = dummyTreeN6[in6].iduniteorg
+                                //niveau7
+                                dummyTreeN7 = unitesOrgListe.reduce((aels, uniteOrg) => {
+                                    if (uniteOrg.iduoparente == iduoparente) {
+                                        aels.push(uniteOrg);
+                                    }
+                                    return aels;
+                                }, [])
+                                //console.log(dummyTreeN7)
+
+                                for (let in7=0; in7<dummyTreeN7.length; in7++) {
+                                    const uoN7 = {
+                                        id: dummyTreeN7[in7].iduniteorg,
+                                        nom: dummyTreeN7[in7].nomuniteorg,
+                                        description: dummyTreeN7[in7].descriptionuniteorg,
+                                        bcache: dummyTreeN7[in7].descriptionuniteorg,
+                                        enfants: []
+                                    }
+                                    aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants[in5].enfants[in6].enfants.push(uoN7)
+
+                                    iduoparente = dummyTreeN7[in7].iduniteorg
+                                    //niveau8
+                                    dummyTreeN8 = unitesOrgListe.reduce((aels, uniteOrg) => {
+                                        if (uniteOrg.iduoparente == iduoparente) {
+                                            aels.push(uniteOrg);
+                                        }
+                                        return aels;
+                                    }, [])
+                                    console.log(dummyTreeN7)
+
+                                }
                             }
+                        }
+                    }
+                }                
+            }
+        }
+    }
+
+    return aDummyTree
+}
+unitesOrgTree.value = transforUOListe2UOTree(unitesOrgListe)
+console.log(unitesOrgTree.value[0]) 
+
+
+const panelN0 = ref([0])
+const panelN1 = ref([])
+
+const unitesOrg = unitesOrgTree.value[0]
+const unitesOrgxx = 
+{
+nom: 'Ville de Lausanne',
+enfants: [
+    {
+        nom:'Direction 1',
+        enfants: [
+            {
+                nom: 'Service 1-1',
+                enfants: [
+                    {
+                        nom: 'Goéland',
+                        enfants: [
+                            {
+                            nom: 'Goéland Dev Team',
+                            enfants: []
+                        }
+
+                        ]
+                    }
+                ],
+            },
+            {
+                nom: 'Service 1-2',
+                enfants: [
+                    {
+                        nom: 'Niveau 3 a',
+                        enfants: [
+                            
                         ],
                     },
                     {
-                        nom: 'Service 1-2',
+                        nom: 'Niveau 3 b',
                         enfants: [
                             {
-                                nom: 'Niveau 3 a',
+                                nom: 'Niveau 4 a',
                                 enfants: [
                                     
                                 ],
                             },
                             {
-                                nom: 'Niveau 3 b',
+                                nom: 'Niveau 4 b',
                                 enfants: [
                                     {
-                                        nom: 'Niveau 4 a',
+                                        nom: 'Niveau 5 a',
                                         enfants: [
                                             
                                         ],
                                     },
                                     {
-                                        nom: 'Niveau 4 b',
+                                        nom: 'Niveau 5 b',
                                         enfants: [
-                                            {
-                                                nom: 'Niveau 5 a',
-                                                enfants: [
-                                                    
-                                                ],
-                                            },
-                                            {
-                                                nom: 'Niveau 5 b',
-                                                enfants: [
-                                                    
-                                                ],
-                                            }
+                                            
                                         ],
                                     }
-                                    
                                 ],
                             }
-
-
+                            
                         ],
                     }
-                ]
-            }, 
-            {
-                nom:'Direction 2',
-                enfants: [
-                    {
-                        nom: 'Service 2-1',
-                        enfants: [],
-                    },
-                    {
-                        nom: 'Service 2-2',
-                        enfants: [],
-                    }
-                ]
-            }, 
-      ]
-    }
 
-    const choix = (i) => {
-        console.log('choix: ' + i)
-    }    
-  </script>
+
+                ],
+            }
+        ]
+    }, 
+    {
+        nom:'Direction 2',
+        enfants: [
+            {
+                nom: 'Service 2-1',
+                enfants: [],
+            },
+            {
+                nom: 'Service 2-2',
+                enfants: [],
+            }
+        ]
+    }, 
+]
+}
+
+const choix = (i) => {
+    console.log('choix: ' + i)
+}    
+</script>
