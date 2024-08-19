@@ -11,230 +11,451 @@
                 <v-expansion-panels v-model="panelN0">
                     <v-expansion-panel>
                         <v-expansion-panel-title>
-                            <v-btn
-                                class="text-none text-subtitle-1"
-                                size="small"
-                                variant="flat"
-                                @click.stop="choix(0)"
-                            >
-                                {{ unitesOrg.nom }}
-                            </v-btn>                                                
+                            <div class="d-flex align-center">
+                                <v-checkbox v-if="modeChoix=='multiple'"
+                                    density="compact"
+                                    hide-details
+                                    class="mt-0 pt-0 mr-2"
+                                    @click.stop="choixMultiple(unitesOrg.id)"
+                                ></v-checkbox>
+                                <v-tooltip :text="unitesOrg.description">
+                                    <template v-slot:activator="{ props }">
+                                        <v-btn
+                                            v-bind:=props
+                                            class="text-none text-subtitle-1"
+                                            size="small"
+                                            variant="flat"
+                                            @click.stop="choix(unitesOrg.id)"
+                                        >
+                                            {{ unitesOrg.nom }}
+                                        </v-btn>
+                                    </template>
+                                </v-tooltip>
+                            </div>                                                
                         </v-expansion-panel-title>
                         <v-expansion-panel-text>
                             <!-- Niveau 1 directions -->
                             <div v-for="(uo, index) in unitesOrg.enfants" :key="index">
-                                <div v-if="uo.enfants.length === 0">
-                                    <span class="spnalign"></span>
-                                    <v-btn
-                                        class="text-none text-subtitle-1"
-                                        size="small"
-                                        variant="flat"
-                                        @click.stop="choix(index)"
-                                    >
-                                        {{ uo.nom }}
-                                    </v-btn>                                                
+                                <div v-if="uo.enfants.length === 0 && (uo.bcache === 0 || buniteHorVdL)">
+                                    <div class="d-flex align-center">
+                                        <span class="spnalign"></span>
+                                        <v-checkbox  v-if="modeChoix=='multiple'"
+                                            density="compact"
+                                            hide-details
+                                            class="mt-0 pt-0 mr-2"
+                                            @click.stop="choixMultiple(uo.id)"
+                                        ></v-checkbox>
+                                        <v-tooltip :text="uo.description">
+                                            <template v-slot:activator="{ props }">
+                                                <v-btn
+                                                    v-bind:=props
+                                                    class="text-none text-subtitle-1 text-medium-emphasis"
+                                                    size="small"
+                                                    variant="flat"
+                                                    @click.stop="choix(uo.id)"
+                                                >
+                                                    {{ uo.nom }}
+                                                </v-btn>
+                                            </template>
+                                        </v-tooltip>                                                
+                                    </div>
                                 </div>    
-                                <div v-else>
+                                <div v-else-if="uo.bcache === 0 || buniteHorVdL">
                                     <v-expansion-panels>
                                         <v-expansion-panel>
                                             <v-expansion-panel-title>
-                                                <v-btn
-                                                    class="text-none text-subtitle-1"
-                                                    size="small"
-                                                    variant="flat"
-                                                    @click.stop="choix(index)"
-                                                >
-                                                    {{ uo.nom }}
-                                                </v-btn>                                                
+                                                <div class="d-flex align-center">
+                                                    <v-checkbox v-if="modeChoix=='multiple'" 
+                                                        density="compact"
+                                                        hide-details
+                                                        class="mt-0 pt-0 mr-2"
+                                                        @click.stop="choixMultiple(uo.id)"
+                                                    ></v-checkbox>
+                                                    <v-tooltip :text="uo.description">
+                                                        <template v-slot:activator="{ props }">
+                                                            <v-btn
+                                                                v-bind:=props
+                                                                class="text-none text-subtitle-1"
+                                                                size="small"
+                                                                variant="flat"
+                                                                @click.stop="choix(uo.id)"
+                                                            >
+                                                                {{ uo.nom }}
+                                                            </v-btn>
+                                                        </template>
+                                                    </v-tooltip>
+                                                </div>                                                
                                             </v-expansion-panel-title>
                                             <v-expansion-panel-text>
                                                 <!-- Niveau 2 services -->
-                                                <div v-for="(uo, index) in uo.enfants" :key="index">
+                                                <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                                     <div v-if="uo.enfants.length === 0">
-                                                        <span class="spnalign"></span>
-                                                        <v-btn
-                                                            class="text-none text-subtitle-1"
-                                                            size="small"
-                                                            variant="flat"
-                                                            @click.stop="choix(index)"
-                                                        >
-                                                            {{ uo.nom }}
-                                                        </v-btn>                                                
+                                                        <div class="d-flex align-center">
+                                                            <span class="spnalign"></span>
+                                                            <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                density="compact"
+                                                                hide-details
+                                                                class="mt-0 pt-0 mr-2"
+                                                                @click.stop="choixMultiple(uo.id)"
+                                                            ></v-checkbox>
+                                                            <v-tooltip :text="uo.description">
+                                                                <template v-slot:activator="{ props }">
+                                                                    <v-btn
+                                                                        v-bind:=props
+                                                                        class="text-none text-subtitle-1 text-medium-emphasis"
+                                                                        size="small"
+                                                                        variant="flat"
+                                                                        @click.stop="choix(uo.id)"
+                                                                    >
+                                                                        {{ uo.nom }}
+                                                                    </v-btn>
+                                                                </template>
+                                                            </v-tooltip>
+                                                        </div>                                                
                                                     </div>    
                                                     <div v-else>
                                                         <v-expansion-panels>
                                                             <v-expansion-panel>
                                                                 <v-expansion-panel-title>
-                                                                    <v-btn
-                                                                        class="text-none text-subtitle-1"
-                                                                        size="small"
-                                                                        variant="flat"
-                                                                        @click.stop="choix(index)"
-                                                                    >
-                                                                        {{ uo.nom }}
-                                                                    </v-btn>                                                
+                                                                    <div class="d-flex align-center">
+                                                                        <v-checkbox v-if="modeChoix=='multiple'"
+                                                                            density="compact"
+                                                                            hide-details
+                                                                            class="mt-0 pt-0 mr-2"
+                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                        ></v-checkbox>
+                                                                        <v-tooltip :text="uo.description">
+                                                                            <template v-slot:activator="{ props }">
+                                                                                <v-btn
+                                                                                    v-bind:=props
+                                                                                    class="text-none text-subtitle-1"
+                                                                                    size="small"
+                                                                                    variant="flat"
+                                                                                    @click.stop="choix(uo.id)"
+                                                                                >
+                                                                                    {{ uo.nom }}
+                                                                                </v-btn>
+                                                                            </template>
+                                                                        </v-tooltip>
+                                                                    </div>                                                  
                                                                 </v-expansion-panel-title>
                                                                 <v-expansion-panel-text>
                                                                     <!-- Niveau 3 sous-services -->
                                                                     <div v-for="(uo, index) in uo.enfants" :key="index">
                                                                         <div v-if="uo.enfants.length === 0">
-                                                                            <span class="spnalign"></span>
-                                                                            <v-btn
-                                                                                class="text-none text-subtitle-1"
-                                                                                size="small"
-                                                                                variant="flat"
-                                                                                @click.stop="choix(index)"
-                                                                            >
-                                                                                {{ uo.nom }}
-                                                                            </v-btn>                                                
+                                                                            <div class="d-flex align-center">
+                                                                                <span class="spnalign"></span>
+                                                                                <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                    density="compact"
+                                                                                    hide-details
+                                                                                    class="mt-0 pt-0 mr-2"
+                                                                                    @click.stop="choixMultiple(uo.id)"
+                                                                                ></v-checkbox>
+                                                                               <v-tooltip :text="uo.description">
+                                                                                    <template v-slot:activator="{ props }">
+                                                                                        <v-btn
+                                                                                            v-bind:=props
+                                                                                            class="text-none text-subtitle-1 text-medium-emphasis"
+                                                                                            size="small"
+                                                                                            variant="flat"
+                                                                                            @click.stop="choix(uo.id)"
+                                                                                        >
+                                                                                            {{ uo.nom }}
+                                                                                        </v-btn>
+                                                                                    </template>
+                                                                                </v-tooltip>
+                                                                            </div>                                                
                                                                         </div>    
                                                                         <div v-else>
                                                                             <v-expansion-panels>
                                                                                 <v-expansion-panel>
                                                                                     <v-expansion-panel-title>
-                                                                                        <v-btn
-                                                                                            class="text-none text-subtitle-1"
-                                                                                            size="small"
-                                                                                            variant="flat"
-                                                                                            @click.stop="choix(index)"
-                                                                                        >
-                                                                                            {{ uo.nom }}
-                                                                                        </v-btn>                                                
+                                                                                        <div class="d-flex align-center">
+                                                                                            <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                density="compact"
+                                                                                                hide-details
+                                                                                                class="mt-0 pt-0 mr-2"
+                                                                                                @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                            ></v-checkbox>
+                                                                                           <v-tooltip :text="uo.description">
+                                                                                                <template v-slot:activator="{ props }">
+                                                                                                    <v-btn
+                                                                                                        v-bind:=props
+                                                                                                        class="text-none text-subtitle-1"
+                                                                                                        size="small"
+                                                                                                        variant="flat"
+                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                    >
+                                                                                                        {{ uo.nom }}
+                                                                                                    </v-btn>
+                                                                                                </template>
+                                                                                            </v-tooltip>
+                                                                                        </div>                                                
                                                                                     </v-expansion-panel-title>
                                                                                     <v-expansion-panel-text>
                                                                                         <!-- Niveau 4 -->
                                                                                         <div v-for="(uo, index) in uo.enfants" :key="index">
                                                                                             <div v-if="uo.enfants.length === 0">
-                                                                                                <span class="spnalign"></span>
-                                                                                                <v-btn
-                                                                                                    class="text-none text-subtitle-1"
-                                                                                                    size="small"
-                                                                                                    variant="flat"
-                                                                                                    @click.stop="choix(index)"
-                                                                                                >
-                                                                                                    {{ uo.nom }}
-                                                                                                </v-btn>                                                
+                                                                                                <div class="d-flex align-center">
+                                                                                                    <span class="spnalign"></span>
+                                                                                                    <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                        density="compact"
+                                                                                                        hide-details
+                                                                                                        class="mt-0 pt-0 mr-2"
+                                                                                                        @click.stop="choixMultiple(uo.id)"
+                                                                                                    ></v-checkbox>
+                                                                                                    <v-tooltip :text="uo.description">
+                                                                                                        <template v-slot:activator="{ props }">
+                                                                                                            <v-btn
+                                                                                                                v-bind:=props
+                                                                                                                class="text-none text-subtitle-1 text-medium-emphasis"
+                                                                                                                size="small"
+                                                                                                                variant="flat"
+                                                                                                                @click.stop="choix(uo.id)"
+                                                                                                            >
+                                                                                                                {{ uo.nom }}
+                                                                                                            </v-btn>
+                                                                                                        </template>
+                                                                                                    </v-tooltip>
+                                                                                                </div>                                                
                                                                                             </div>    
                                                                                             <div v-else>
                                                                                                 <v-expansion-panels>
                                                                                                     <v-expansion-panel>
                                                                                                         <v-expansion-panel-title>
-                                                                                                            <v-btn
-                                                                                                                class="text-none text-subtitle-1"
-                                                                                                                size="small"
-                                                                                                                variant="flat"
-                                                                                                                @click.stop="choix(index)"
-                                                                                                            >
-                                                                                                                {{ uo.nom }}
-                                                                                                            </v-btn>                                                
+                                                                                                            <div class="d-flex align-center">
+                                                                                                                <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                    density="compact"
+                                                                                                                    hide-details
+                                                                                                                    class="mt-0 pt-0 mr-2"
+                                                                                                                    @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                ></v-checkbox>
+                                                                                                                <v-tooltip :text="uo.description">
+                                                                                                                    <template v-slot:activator="{ props }">
+                                                                                                                        <v-btn
+                                                                                                                            v-bind:=props
+                                                                                                                            class="text-none text-subtitle-1"
+                                                                                                                            size="small"
+                                                                                                                            variant="flat"
+                                                                                                                            @click.stop="choix(uo.id)"
+                                                                                                                        >
+                                                                                                                            {{ uo.nom }}
+                                                                                                                        </v-btn>
+                                                                                                                    </template>
+                                                                                                                </v-tooltip>
+                                                                                                            </div>                                                
                                                                                                         </v-expansion-panel-title>
                                                                                                         <v-expansion-panel-text>
                                                                                                             <!-- Niveau 5 -->
                                                                                                             <div v-for="(uo, index) in uo.enfants" :key="index">
                                                                                                                 <div v-if="uo.enfants.length === 0">
-                                                                                                                    <span class="spnalign"></span>
-                                                                                                                    <v-btn
-                                                                                                                        class="text-none text-subtitle-1"
-                                                                                                                        size="small"
-                                                                                                                        variant="flat"
-                                                                                                                        @click.stop="choix(index)"
-                                                                                                                    >
-                                                                                                                        {{ uo.nom }}
-                                                                                                                    </v-btn>                                                
+                                                                                                                    <div class="d-flex align-center">
+                                                                                                                        <span class="spnalign"></span>
+                                                                                                                        <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                            density="compact"
+                                                                                                                            hide-details
+                                                                                                                            class="mt-0 pt-0 mr-2"
+                                                                                                                            @click.stop="choixMultiple(uo.id)"
+                                                                                                                        ></v-checkbox>
+                                                                                                                        <v-tooltip :text="uo.description">
+                                                                                                                            <template v-slot:activator="{ props }">
+                                                                                                                                <v-btn
+                                                                                                                                    v-bind:=props
+                                                                                                                                    class="text-none text-subtitle-1 text-medium-emphasis"
+                                                                                                                                    size="small"
+                                                                                                                                    variant="flat"
+                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                >
+                                                                                                                                    {{ uo.nom }}
+                                                                                                                                </v-btn>
+                                                                                                                            </template>
+                                                                                                                        </v-tooltip>
+                                                                                                                    </div>                                                
                                                                                                                 </div>    
                                                                                                                 <div v-else>
                                                                                                                     <v-expansion-panels>
                                                                                                                         <v-expansion-panel>
                                                                                                                             <v-expansion-panel-title>
-                                                                                                                                <v-btn
-                                                                                                                                    class="text-none text-subtitle-1"
-                                                                                                                                    size="small"
-                                                                                                                                    variant="flat"
-                                                                                                                                    @click.stop="choix(index)"
-                                                                                                                                >
-                                                                                                                                    {{ uo.nom }}
-                                                                                                                                </v-btn>                                                
+                                                                                                                                <div class="d-flex align-center">
+                                                                                                                                    <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                        density="compact"
+                                                                                                                                        hide-details
+                                                                                                                                        class="mt-0 pt-0 mr-2"
+                                                                                                                                        @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                    ></v-checkbox>
+                                                                                                                                    <v-tooltip :text="uo.description">
+                                                                                                                                        <template v-slot:activator="{ props }">
+                                                                                                                                            <v-btn
+                                                                                                                                                v-bind:=props
+                                                                                                                                                class="text-none text-subtitle-1"
+                                                                                                                                                size="small"
+                                                                                                                                                variant="flat"
+                                                                                                                                                @click.stop="choix(uo.id)"
+                                                                                                                                            >
+                                                                                                                                                {{ uo.nom }}
+                                                                                                                                            </v-btn>
+                                                                                                                                        </template>
+                                                                                                                                    </v-tooltip>
+                                                                                                                                </div>                                                
                                                                                                                             </v-expansion-panel-title>
                                                                                                                             <v-expansion-panel-text>
                                                                                                                                 <!-- Niveau 6 -->
                                                                                                                                 <div v-for="(uo, index) in uo.enfants" :key="index">
                                                                                                                                     <div v-if="uo.enfants.length === 0">
-                                                                                                                                        <span class="spnalign"></span>
-                                                                                                                                        <v-btn
-                                                                                                                                            class="text-none text-subtitle-1"
-                                                                                                                                            size="small"
-                                                                                                                                            variant="flat"
-                                                                                                                                            @click.stop="choix(index)"
-                                                                                                                                        >
-                                                                                                                                            {{ uo.nom }}
-                                                                                                                                        </v-btn>                                                
+                                                                                                                                        <div class="d-flex align-center">
+                                                                                                                                            <span class="spnalign"></span>
+                                                                                                                                            <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                                                density="compact"
+                                                                                                                                                hide-details
+                                                                                                                                                class="mt-0 pt-0 mr-2"
+                                                                                                                                                @click.stop="choixMultiple(uo.id)"
+                                                                                                                                            ></v-checkbox>
+                                                                                                                                            <v-tooltip :text="uo.description">
+                                                                                                                                                <template v-slot:activator="{ props }">
+                                                                                                                                                    <v-btn
+                                                                                                                                                        v-bind:=props
+                                                                                                                                                        class="text-none text-subtitle-1 text-medium-emphasis"
+                                                                                                                                                        size="small"
+                                                                                                                                                        variant="flat"
+                                                                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                                                                    >
+                                                                                                                                                        {{ uo.nom }}
+                                                                                                                                                    </v-btn>
+                                                                                                                                                </template>
+                                                                                                                                            </v-tooltip>
+                                                                                                                                        </div>                                                
                                                                                                                                     </div>    
                                                                                                                                     <div v-else>
                                                                                                                                         <v-expansion-panels>
                                                                                                                                             <v-expansion-panel>
                                                                                                                                                 <v-expansion-panel-title>
-                                                                                                                                                    <v-btn
-                                                                                                                                                        class="text-none text-subtitle-1"
-                                                                                                                                                        size="small"
-                                                                                                                                                        variant="flat"
-                                                                                                                                                        @click.stop="choix(index)"
-                                                                                                                                                    >
-                                                                                                                                                        {{ uo.nom }}
-                                                                                                                                                    </v-btn>                                                
+                                                                                                                                                    <div class="d-flex align-center">
+                                                                                                                                                        <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                                            density="compact"
+                                                                                                                                                            hide-details
+                                                                                                                                                            class="mt-0 pt-0 mr-2"
+                                                                                                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                                        ></v-checkbox>
+                                                                                                                                                        <v-tooltip :text="uo.description">
+                                                                                                                                                            <template v-slot:activator="{ props }">
+                                                                                                                                                                <v-btn
+                                                                                                                                                                    v-bind:=props
+                                                                                                                                                                    class="text-none text-subtitle-1"
+                                                                                                                                                                    size="small"
+                                                                                                                                                                    variant="flat"
+                                                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                                                >
+                                                                                                                                                                    {{ uo.nom }}
+                                                                                                                                                                </v-btn>
+                                                                                                                                                            </template>
+                                                                                                                                                        </v-tooltip>
+                                                                                                                                                    </div>                                                
                                                                                                                                                 </v-expansion-panel-title>
                                                                                                                                                 <v-expansion-panel-text>
                                                                                                                                                 <!-- Niveau 7 -->
                                                                                                                                                 <div v-for="(uo, index) in uo.enfants" :key="index">
                                                                                                                                                     <div v-if="uo.enfants.length === 0">
-                                                                                                                                                        <span class="spnalign"></span>
-                                                                                                                                                        <v-btn
-                                                                                                                                                            class="text-none text-subtitle-1"
-                                                                                                                                                            size="small"
-                                                                                                                                                            variant="flat"
-                                                                                                                                                            @click.stop="choix(index)"
-                                                                                                                                                        >
-                                                                                                                                                            {{ uo.nom }}
-                                                                                                                                                        </v-btn>                                                
+                                                                                                                                                        <div class="d-flex align-center">
+                                                                                                                                                            <span class="spnalign"></span>
+                                                                                                                                                            <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                                                                density="compact"
+                                                                                                                                                                hide-details
+                                                                                                                                                                class="mt-0 pt-0 mr-2"
+                                                                                                                                                                @click.stop="choixMultiple(uo.id)"
+                                                                                                                                                            ></v-checkbox>
+                                                                                                                                                            <v-tooltip :text="uo.description">
+                                                                                                                                                                <template v-slot:activator="{ props }">
+                                                                                                                                                                    <v-btn
+                                                                                                                                                                        v-bind:=props
+                                                                                                                                                                        class="text-none text-subtitle-1 text-medium-emphasis"
+                                                                                                                                                                        size="small"
+                                                                                                                                                                        variant="flat"
+                                                                                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                                                                                    >
+                                                                                                                                                                        {{ uo.nom }}
+                                                                                                                                                                    </v-btn>
+                                                                                                                                                                </template>
+                                                                                                                                                            </v-tooltip>
+                                                                                                                                                        </div>                                                
                                                                                                                                                     </div>    
                                                                                                                                                     <div v-else>
                                                                                                                                                         <v-expansion-panels>
                                                                                                                                                             <v-expansion-panel>
                                                                                                                                                                 <v-expansion-panel-title>
-                                                                                                                                                                    <v-btn
-                                                                                                                                                                        class="text-none text-subtitle-1"
-                                                                                                                                                                        size="small"
-                                                                                                                                                                        variant="flat"
-                                                                                                                                                                        @click.stop="choix(index)"
-                                                                                                                                                                    >
-                                                                                                                                                                        {{ uo.nom }}
-                                                                                                                                                                    </v-btn>                                                
+                                                                                                                                                                    <div class="d-flex align-center">
+                                                                                                                                                                        <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                                                            density="compact"
+                                                                                                                                                                            hide-details
+                                                                                                                                                                            class="mt-0 pt-0 mr-2"
+                                                                                                                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                                                        ></v-checkbox>
+                                                                                                                                                                        <v-tooltip :text="uo.description">
+                                                                                                                                                                            <template v-slot:activator="{ props }">
+                                                                                                                                                                                <v-btn
+                                                                                                                                                                                    v-bind:=props
+                                                                                                                                                                                    class="text-none text-subtitle-1"
+                                                                                                                                                                                    size="small"
+                                                                                                                                                                                    variant="flat"
+                                                                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                                                                >
+                                                                                                                                                                                    {{ uo.nom }}
+                                                                                                                                                                                </v-btn>
+                                                                                                                                                                            </template>
+                                                                                                                                                                        </v-tooltip>
+                                                                                                                                                                    </div>                                                
                                                                                                                                                                 </v-expansion-panel-title>
                                                                                                                                                                 <v-expansion-panel-text>
                                                                                                                                                                 <!-- Niveau 8 -->
                                                                                                                                                                 <div v-for="(uo, index) in uo.enfants" :key="index">
                                                                                                                                                                     <div v-if="uo.enfants.length === 0">
-                                                                                                                                                                        <span class="spnalign"></span>
-                                                                                                                                                                        <v-btn
-                                                                                                                                                                            class="text-none text-subtitle-1"
-                                                                                                                                                                            size="small"
-                                                                                                                                                                            variant="flat"
-                                                                                                                                                                            @click.stop="choix(index)"
-                                                                                                                                                                        >
-                                                                                                                                                                            {{ uo.nom }}
-                                                                                                                                                                        </v-btn>                                                
+                                                                                                                                                                        <div class="d-flex align-center">
+                                                                                                                                                                            <span class="spnalign"></span>
+                                                                                                                                                                            <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                                                                                density="compact"
+                                                                                                                                                                                hide-details
+                                                                                                                                                                                class="mt-0 pt-0 mr-2"
+                                                                                                                                                                                @click.stop="choixMultiple(uo.id)"
+                                                                                                                                                                            ></v-checkbox>
+                                                                                                                                                                            <v-tooltip :text="uo.description">
+                                                                                                                                                                                <template v-slot:activator="{ props }">
+                                                                                                                                                                                    <v-btn
+                                                                                                                                                                                        v-bind:=props
+                                                                                                                                                                                        class="text-none text-subtitle-1 text-medium-emphasis"
+                                                                                                                                                                                        size="small"
+                                                                                                                                                                                        variant="flat"
+                                                                                                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                                                                                                    >
+                                                                                                                                                                                        {{ uo.nom }}
+                                                                                                                                                                                    </v-btn>
+                                                                                                                                                                                </template>
+                                                                                                                                                                            </v-tooltip>
+                                                                                                                                                                        </div>                                                
                                                                                                                                                                     </div>    
                                                                                                                                                                     <div v-else>
                                                                                                                                                                         <v-expansion-panels>
                                                                                                                                                                             <v-expansion-panel>
                                                                                                                                                                                 <v-expansion-panel-title>
-                                                                                                                                                                                    <v-btn
-                                                                                                                                                                                        class="text-none text-subtitle-1"
-                                                                                                                                                                                        size="small"
-                                                                                                                                                                                        variant="flat"
-                                                                                                                                                                                        @click.stop="choix(index)"
-                                                                                                                                                                                    >
-                                                                                                                                                                                        {{ uo.nom }}
-                                                                                                                                                                                    </v-btn>                                                
+                                                                                                                                                                                    <div class="d-flex align-center">
+                                                                                                                                                                                        <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                                                                            density="compact"
+                                                                                                                                                                                            hide-details
+                                                                                                                                                                                            class="mt-0 pt-0 mr-2"
+                                                                                                                                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                                                                        ></v-checkbox>
+                                                                                                                                                                                        <v-tooltip :text="uo.description">
+                                                                                                                                                                                            <template v-slot:activator="{ props }">
+                                                                                                                                                                                                <v-btn
+                                                                                                                                                                                                    v-bind:=props
+                                                                                                                                                                                                    class="text-none text-subtitle-1"
+                                                                                                                                                                                                    size="small"
+                                                                                                                                                                                                    variant="flat"
+                                                                                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                                                                                >
+                                                                                                                                                                                                    {{ uo.nom }}
+                                                                                                                                                                                                </v-btn>
+                                                                                                                                                                                            </template>
+                                                                                                                                                                                        </v-tooltip>
+                                                                                                                                                                                    </div>                                                
                                                                                                                                                                                 </v-expansion-panel-title>
                                                                                                                                                                                 <v-expansion-panel-text>
                                                                                                                                                                                     !!! Niveau hiérarchique non traité, prévenir le support goéland !!!
@@ -291,6 +512,22 @@
 <script setup>
 import { ref } from 'vue'
 import { getUnitesOrgListe } from '../axioscalls.js'
+
+const props = defineProps({
+  modeChoix: String,
+  uniteHorsVdL: String,
+})
+let modeChoix = ref('unique')
+if (props.modeChoix !== undefined) {
+  modeChoix = ref(props.modeChoix)
+}
+let buniteHorVdL = ref(false)
+if (props.uniteHorsVdL !== undefined) {
+    if (props.uniteHorsVdL == 'oui') {
+        buniteHorVdL = ref(true)    
+    }
+}
+const unitesOrgChoisies = ref([])
 const unitesOrgTree = ref([])
 const unitesOrgListe = await getUnitesOrgListe()
 //console.log(unitesOrgListe)
@@ -301,8 +538,6 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
     let dummyTreeN3 = [], dummyTreeN4 = [], dummyTreeN5 = []
     let dummyTreeN6 = [], dummyTreeN7 = [], dummyTreeN8 = []
     let iduoparente
-
-
 
     //niveau0
     dummyTreeN0 = unitesOrgListe.reduce((aels, uniteOrg) => {
@@ -317,7 +552,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
             id: dummyTreeN0[in0].iduniteorg,
             nom: dummyTreeN0[in0].nomuniteorg,
             description: dummyTreeN0[in0].descriptionuniteorg,
-            bcache: dummyTreeN0[in0].descriptionuniteorg,
+            bcache: dummyTreeN0[in0].bcache,
             enfants: []
         }
         aDummyTree.push(uoN0)
@@ -338,7 +573,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                 id: dummyTreeN1[in1].iduniteorg,
                 nom: dummyTreeN1[in1].nomuniteorg,
                 description: dummyTreeN1[in1].descriptionuniteorg,
-                bcache: dummyTreeN1[in1].descriptionuniteorg,
+                bcache: dummyTreeN1[in1].bcache,
                 enfants: []
             }
             aDummyTree[in0].enfants.push(uoN1)
@@ -358,7 +593,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                     id: dummyTreeN2[in2].iduniteorg,
                     nom: dummyTreeN2[in2].nomuniteorg,
                     description: dummyTreeN2[in2].descriptionuniteorg,
-                    bcache: dummyTreeN2[in2].descriptionuniteorg,
+                    bcache: dummyTreeN2[in2].bcache,
                     enfants: []
                 }
                 aDummyTree[in0].enfants[in1].enfants.push(uoN2)
@@ -378,7 +613,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                         id: dummyTreeN3[in3].iduniteorg,
                         nom: dummyTreeN3[in3].nomuniteorg,
                         description: dummyTreeN3[in3].descriptionuniteorg,
-                        bcache: dummyTreeN3[in3].descriptionuniteorg,
+                        bcache: dummyTreeN3[in3].bcache,
                         enfants: []
                     }
                     aDummyTree[in0].enfants[in1].enfants[in2].enfants.push(uoN3)
@@ -398,7 +633,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                             id: dummyTreeN4[in4].iduniteorg,
                             nom: dummyTreeN4[in4].nomuniteorg,
                             description: dummyTreeN4[in4].descriptionuniteorg,
-                            bcache: dummyTreeN4[in4].descriptionuniteorg,
+                            bcache: dummyTreeN4[in4].bcache,
                             enfants: []
                         }
                         aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants.push(uoN4)
@@ -418,7 +653,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                                 id: dummyTreeN5[in5].iduniteorg,
                                 nom: dummyTreeN5[in5].nomuniteorg,
                                 description: dummyTreeN5[in5].descriptionuniteorg,
-                                bcache: dummyTreeN5[in5].descriptionuniteorg,
+                                bcache: dummyTreeN5[in5].bcache,
                                 enfants: []
                             }
                             aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants.push(uoN5)
@@ -438,7 +673,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                                     id: dummyTreeN6[in6].iduniteorg,
                                     nom: dummyTreeN6[in6].nomuniteorg,
                                     description: dummyTreeN6[in6].descriptionuniteorg,
-                                    bcache: dummyTreeN6[in6].descriptionuniteorg,
+                                    bcache: dummyTreeN6[in6].bcache,
                                     enfants: []
                                 }
                                 aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants[in5].enfants.push(uoN6)
@@ -458,7 +693,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                                         id: dummyTreeN7[in7].iduniteorg,
                                         nom: dummyTreeN7[in7].nomuniteorg,
                                         description: dummyTreeN7[in7].descriptionuniteorg,
-                                        bcache: dummyTreeN7[in7].descriptionuniteorg,
+                                        bcache: dummyTreeN7[in7].bcache,
                                         enfants: []
                                     }
                                     aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants[in5].enfants[in6].enfants.push(uoN7)
@@ -492,89 +727,12 @@ const panelN0 = ref([0])
 const panelN1 = ref([])
 
 const unitesOrg = unitesOrgTree.value[0]
-const unitesOrgxx = 
-{
-nom: 'Ville de Lausanne',
-enfants: [
-    {
-        nom:'Direction 1',
-        enfants: [
-            {
-                nom: 'Service 1-1',
-                enfants: [
-                    {
-                        nom: 'Goéland',
-                        enfants: [
-                            {
-                            nom: 'Goéland Dev Team',
-                            enfants: []
-                        }
-
-                        ]
-                    }
-                ],
-            },
-            {
-                nom: 'Service 1-2',
-                enfants: [
-                    {
-                        nom: 'Niveau 3 a',
-                        enfants: [
-                            
-                        ],
-                    },
-                    {
-                        nom: 'Niveau 3 b',
-                        enfants: [
-                            {
-                                nom: 'Niveau 4 a',
-                                enfants: [
-                                    
-                                ],
-                            },
-                            {
-                                nom: 'Niveau 4 b',
-                                enfants: [
-                                    {
-                                        nom: 'Niveau 5 a',
-                                        enfants: [
-                                            
-                                        ],
-                                    },
-                                    {
-                                        nom: 'Niveau 5 b',
-                                        enfants: [
-                                            
-                                        ],
-                                    }
-                                ],
-                            }
-                            
-                        ],
-                    }
-
-
-                ],
-            }
-        ]
-    }, 
-    {
-        nom:'Direction 2',
-        enfants: [
-            {
-                nom: 'Service 2-1',
-                enfants: [],
-            },
-            {
-                nom: 'Service 2-2',
-                enfants: [],
-            }
-        ]
-    }, 
-]
-}
 
 const choix = (i) => {
     console.log('choix: ' + i)
-}    
+}
+
+const choixMultiple = (i) => {
+    console.log('choix multiple: ' + i)
+}
 </script>

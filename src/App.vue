@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <Suspense><UniteOrgChoix /></Suspense>
+      <Suspense><UniteOrgChoix uniteHorsVdL="non" modeChoix="unique"/></Suspense>
     </v-main>
   </v-app>
 </template>
