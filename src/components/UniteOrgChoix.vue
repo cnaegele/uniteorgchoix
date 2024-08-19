@@ -762,7 +762,7 @@ const choix = (uniteOrg) => {
         description: uniteOrg.description,
     }
     emit('choixUniteOrg', JSON.stringify(uoChoisie))
-    console.log(JSON.stringify(uoChoisie))
+    //console.log(JSON.stringify(uoChoisie))
 }
 
 const choixMultiple = (uniteOrg) => {
@@ -782,6 +782,6 @@ const choixMultiple = (uniteOrg) => {
 
 const choixTermine = () => {
     emit('choixUniteOrg', JSON.stringify(unitesOrgListeChoisi))
-    console.log(JSON.stringify(unitesOrgListeChoisi))
+    //console.log(JSON.stringify(unitesOrgListeChoisi))
 }
 </script>
