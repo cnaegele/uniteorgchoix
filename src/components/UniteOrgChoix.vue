@@ -5,7 +5,15 @@
 </style>
 <template>
     <v-container>
-        <v-row>
+        <v-row v-if="modeChoix=='multiple'">
+            <v-col>
+                <v-btn
+                    rounded="lg"
+                    @click="choixTermine()"
+                >Choix terminé</v-btn>
+            </v-col>
+        </v-row>
+        <v-row v-for="(uo, index) in unitesOrgTree" :key="uo.id">
             <v-col>
                 <!-- Niveau 0 -->
                 <v-expansion-panels v-model="panelN0">
@@ -13,21 +21,22 @@
                         <v-expansion-panel-title>
                             <div class="d-flex align-center">
                                 <v-checkbox v-if="modeChoix=='multiple'"
+                                    :id="`chkChoixUO${uo.id}`"
                                     density="compact"
                                     hide-details
                                     class="mt-0 pt-0 mr-2"
-                                    @click.stop="choixMultiple(unitesOrg.id)"
+                                    @click.stop="choixMultiple(uo)"
                                 ></v-checkbox>
-                                <v-tooltip :text="unitesOrg.description">
+                                <v-tooltip :text="uo.description">
                                     <template v-slot:activator="{ props }">
                                         <v-btn
                                             v-bind:=props
                                             class="text-none text-subtitle-1"
                                             size="small"
                                             variant="flat"
-                                            @click.stop="choix(unitesOrg.id)"
+                                            @click.stop="choix(uo)"
                                         >
-                                            {{ unitesOrg.nom }}
+                                            {{ uo.nom }}
                                         </v-btn>
                                     </template>
                                 </v-tooltip>
@@ -35,15 +44,16 @@
                         </v-expansion-panel-title>
                         <v-expansion-panel-text>
                             <!-- Niveau 1 directions -->
-                            <div v-for="(uo, index) in unitesOrg.enfants" :key="index">
+                            <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                 <div v-if="uo.enfants.length === 0 && (uo.bcache === 0 || buniteHorVdL)">
                                     <div class="d-flex align-center">
                                         <span class="spnalign"></span>
                                         <v-checkbox  v-if="modeChoix=='multiple'"
+                                            :id="`chkChoixUO${uo.id}`"
                                             density="compact"
                                             hide-details
                                             class="mt-0 pt-0 mr-2"
-                                            @click.stop="choixMultiple(uo.id)"
+                                            @click.stop="choixMultiple(uo)"
                                         ></v-checkbox>
                                         <v-tooltip :text="uo.description">
                                             <template v-slot:activator="{ props }">
@@ -52,7 +62,7 @@
                                                     class="text-none text-subtitle-1 text-medium-emphasis"
                                                     size="small"
                                                     variant="flat"
-                                                    @click.stop="choix(uo.id)"
+                                                    @click.stop="choix(uo)"
                                                 >
                                                     {{ uo.nom }}
                                                 </v-btn>
@@ -65,11 +75,12 @@
                                         <v-expansion-panel>
                                             <v-expansion-panel-title>
                                                 <div class="d-flex align-center">
-                                                    <v-checkbox v-if="modeChoix=='multiple'" 
+                                                    <v-checkbox v-if="modeChoix=='multiple'"
+                                                        :id="`chkChoixUO${uo.id}`" 
                                                         density="compact"
                                                         hide-details
                                                         class="mt-0 pt-0 mr-2"
-                                                        @click.stop="choixMultiple(uo.id)"
+                                                        @click.stop="choixMultiple(uo)"
                                                     ></v-checkbox>
                                                     <v-tooltip :text="uo.description">
                                                         <template v-slot:activator="{ props }">
@@ -78,7 +89,7 @@
                                                                 class="text-none text-subtitle-1"
                                                                 size="small"
                                                                 variant="flat"
-                                                                @click.stop="choix(uo.id)"
+                                                                @click.stop="choix(uo)"
                                                             >
                                                                 {{ uo.nom }}
                                                             </v-btn>
@@ -93,10 +104,11 @@
                                                         <div class="d-flex align-center">
                                                             <span class="spnalign"></span>
                                                             <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                :id="`chkChoixUO${uo.id}`"
                                                                 density="compact"
                                                                 hide-details
                                                                 class="mt-0 pt-0 mr-2"
-                                                                @click.stop="choixMultiple(uo.id)"
+                                                                @click.stop="choixMultiple(uo)"
                                                             ></v-checkbox>
                                                             <v-tooltip :text="uo.description">
                                                                 <template v-slot:activator="{ props }">
@@ -105,7 +117,7 @@
                                                                         class="text-none text-subtitle-1 text-medium-emphasis"
                                                                         size="small"
                                                                         variant="flat"
-                                                                        @click.stop="choix(uo.id)"
+                                                                        @click.stop="choix(uo)"
                                                                     >
                                                                         {{ uo.nom }}
                                                                     </v-btn>
@@ -119,10 +131,11 @@
                                                                 <v-expansion-panel-title>
                                                                     <div class="d-flex align-center">
                                                                         <v-checkbox v-if="modeChoix=='multiple'"
+                                                                            :id="`chkChoixUO${uo.id}`"
                                                                             density="compact"
                                                                             hide-details
                                                                             class="mt-0 pt-0 mr-2"
-                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                            @click.stop="choixMultiple(uo)"
                                                                         ></v-checkbox>
                                                                         <v-tooltip :text="uo.description">
                                                                             <template v-slot:activator="{ props }">
@@ -131,7 +144,7 @@
                                                                                     class="text-none text-subtitle-1"
                                                                                     size="small"
                                                                                     variant="flat"
-                                                                                    @click.stop="choix(uo.id)"
+                                                                                    @click.stop="choix(uo)"
                                                                                 >
                                                                                     {{ uo.nom }}
                                                                                 </v-btn>
@@ -141,15 +154,16 @@
                                                                 </v-expansion-panel-title>
                                                                 <v-expansion-panel-text>
                                                                     <!-- Niveau 3 sous-services -->
-                                                                    <div v-for="(uo, index) in uo.enfants" :key="index">
+                                                                    <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                                                         <div v-if="uo.enfants.length === 0">
                                                                             <div class="d-flex align-center">
                                                                                 <span class="spnalign"></span>
                                                                                 <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                    :id="`chkChoixUO${uo.id}`"
                                                                                     density="compact"
                                                                                     hide-details
                                                                                     class="mt-0 pt-0 mr-2"
-                                                                                    @click.stop="choixMultiple(uo.id)"
+                                                                                    @click.stop="choixMultiple(uo)"
                                                                                 ></v-checkbox>
                                                                                <v-tooltip :text="uo.description">
                                                                                     <template v-slot:activator="{ props }">
@@ -158,7 +172,7 @@
                                                                                             class="text-none text-subtitle-1 text-medium-emphasis"
                                                                                             size="small"
                                                                                             variant="flat"
-                                                                                            @click.stop="choix(uo.id)"
+                                                                                            @click.stop="choix(uo)"
                                                                                         >
                                                                                             {{ uo.nom }}
                                                                                         </v-btn>
@@ -172,10 +186,11 @@
                                                                                     <v-expansion-panel-title>
                                                                                         <div class="d-flex align-center">
                                                                                             <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                :id="`chkChoixUO${uo.id}`"
                                                                                                 density="compact"
                                                                                                 hide-details
                                                                                                 class="mt-0 pt-0 mr-2"
-                                                                                                @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                @click.stop="choixMultiple(uo)"
                                                                                             ></v-checkbox>
                                                                                            <v-tooltip :text="uo.description">
                                                                                                 <template v-slot:activator="{ props }">
@@ -184,7 +199,7 @@
                                                                                                         class="text-none text-subtitle-1"
                                                                                                         size="small"
                                                                                                         variant="flat"
-                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                        @click.stop="choix(uo)"
                                                                                                     >
                                                                                                         {{ uo.nom }}
                                                                                                     </v-btn>
@@ -194,15 +209,16 @@
                                                                                     </v-expansion-panel-title>
                                                                                     <v-expansion-panel-text>
                                                                                         <!-- Niveau 4 -->
-                                                                                        <div v-for="(uo, index) in uo.enfants" :key="index">
+                                                                                        <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                                                                             <div v-if="uo.enfants.length === 0">
                                                                                                 <div class="d-flex align-center">
                                                                                                     <span class="spnalign"></span>
                                                                                                     <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                        :id="`chkChoixUO${uo.id}`"
                                                                                                         density="compact"
                                                                                                         hide-details
                                                                                                         class="mt-0 pt-0 mr-2"
-                                                                                                        @click.stop="choixMultiple(uo.id)"
+                                                                                                        @click.stop="choixMultiple(uo)"
                                                                                                     ></v-checkbox>
                                                                                                     <v-tooltip :text="uo.description">
                                                                                                         <template v-slot:activator="{ props }">
@@ -211,7 +227,7 @@
                                                                                                                 class="text-none text-subtitle-1 text-medium-emphasis"
                                                                                                                 size="small"
                                                                                                                 variant="flat"
-                                                                                                                @click.stop="choix(uo.id)"
+                                                                                                                @click.stop="choix(uo)"
                                                                                                             >
                                                                                                                 {{ uo.nom }}
                                                                                                             </v-btn>
@@ -225,10 +241,11 @@
                                                                                                         <v-expansion-panel-title>
                                                                                                             <div class="d-flex align-center">
                                                                                                                 <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                    :id="`chkChoixUO${uo.id}`"
                                                                                                                     density="compact"
                                                                                                                     hide-details
                                                                                                                     class="mt-0 pt-0 mr-2"
-                                                                                                                    @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                    @click.stop="choixMultiple(uo)"
                                                                                                                 ></v-checkbox>
                                                                                                                 <v-tooltip :text="uo.description">
                                                                                                                     <template v-slot:activator="{ props }">
@@ -237,7 +254,7 @@
                                                                                                                             class="text-none text-subtitle-1"
                                                                                                                             size="small"
                                                                                                                             variant="flat"
-                                                                                                                            @click.stop="choix(uo.id)"
+                                                                                                                            @click.stop="choix(uo)"
                                                                                                                         >
                                                                                                                             {{ uo.nom }}
                                                                                                                         </v-btn>
@@ -247,15 +264,16 @@
                                                                                                         </v-expansion-panel-title>
                                                                                                         <v-expansion-panel-text>
                                                                                                             <!-- Niveau 5 -->
-                                                                                                            <div v-for="(uo, index) in uo.enfants" :key="index">
+                                                                                                            <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                                                                                                 <div v-if="uo.enfants.length === 0">
                                                                                                                     <div class="d-flex align-center">
                                                                                                                         <span class="spnalign"></span>
                                                                                                                         <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                            :id="`chkChoixUO${uo.id}`"
                                                                                                                             density="compact"
                                                                                                                             hide-details
                                                                                                                             class="mt-0 pt-0 mr-2"
-                                                                                                                            @click.stop="choixMultiple(uo.id)"
+                                                                                                                            @click.stop="choixMultiple(uo)"
                                                                                                                         ></v-checkbox>
                                                                                                                         <v-tooltip :text="uo.description">
                                                                                                                             <template v-slot:activator="{ props }">
@@ -264,7 +282,7 @@
                                                                                                                                     class="text-none text-subtitle-1 text-medium-emphasis"
                                                                                                                                     size="small"
                                                                                                                                     variant="flat"
-                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                    @click.stop="choix(uo)"
                                                                                                                                 >
                                                                                                                                     {{ uo.nom }}
                                                                                                                                 </v-btn>
@@ -278,10 +296,11 @@
                                                                                                                             <v-expansion-panel-title>
                                                                                                                                 <div class="d-flex align-center">
                                                                                                                                     <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                        :id="`chkChoixUO${uo.id}`"
                                                                                                                                         density="compact"
                                                                                                                                         hide-details
                                                                                                                                         class="mt-0 pt-0 mr-2"
-                                                                                                                                        @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                        @click.stop="choixMultiple(uo)"
                                                                                                                                     ></v-checkbox>
                                                                                                                                     <v-tooltip :text="uo.description">
                                                                                                                                         <template v-slot:activator="{ props }">
@@ -290,7 +309,7 @@
                                                                                                                                                 class="text-none text-subtitle-1"
                                                                                                                                                 size="small"
                                                                                                                                                 variant="flat"
-                                                                                                                                                @click.stop="choix(uo.id)"
+                                                                                                                                                @click.stop="choix(uo)"
                                                                                                                                             >
                                                                                                                                                 {{ uo.nom }}
                                                                                                                                             </v-btn>
@@ -300,15 +319,16 @@
                                                                                                                             </v-expansion-panel-title>
                                                                                                                             <v-expansion-panel-text>
                                                                                                                                 <!-- Niveau 6 -->
-                                                                                                                                <div v-for="(uo, index) in uo.enfants" :key="index">
+                                                                                                                                <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                                                                                                                     <div v-if="uo.enfants.length === 0">
                                                                                                                                         <div class="d-flex align-center">
                                                                                                                                             <span class="spnalign"></span>
                                                                                                                                             <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                                                :id="`chkChoixUO${uo.id}`"
                                                                                                                                                 density="compact"
                                                                                                                                                 hide-details
                                                                                                                                                 class="mt-0 pt-0 mr-2"
-                                                                                                                                                @click.stop="choixMultiple(uo.id)"
+                                                                                                                                                @click.stop="choixMultiple(uo)"
                                                                                                                                             ></v-checkbox>
                                                                                                                                             <v-tooltip :text="uo.description">
                                                                                                                                                 <template v-slot:activator="{ props }">
@@ -317,7 +337,7 @@
                                                                                                                                                         class="text-none text-subtitle-1 text-medium-emphasis"
                                                                                                                                                         size="small"
                                                                                                                                                         variant="flat"
-                                                                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                                                                        @click.stop="choix(uo)"
                                                                                                                                                     >
                                                                                                                                                         {{ uo.nom }}
                                                                                                                                                     </v-btn>
@@ -331,10 +351,11 @@
                                                                                                                                                 <v-expansion-panel-title>
                                                                                                                                                     <div class="d-flex align-center">
                                                                                                                                                         <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                                            :id="`chkChoixUO${uo.id}`"
                                                                                                                                                             density="compact"
                                                                                                                                                             hide-details
                                                                                                                                                             class="mt-0 pt-0 mr-2"
-                                                                                                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                                            @click.stop="choixMultiple(uo)"
                                                                                                                                                         ></v-checkbox>
                                                                                                                                                         <v-tooltip :text="uo.description">
                                                                                                                                                             <template v-slot:activator="{ props }">
@@ -343,7 +364,7 @@
                                                                                                                                                                     class="text-none text-subtitle-1"
                                                                                                                                                                     size="small"
                                                                                                                                                                     variant="flat"
-                                                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                                                    @click.stop="choix(uo)"
                                                                                                                                                                 >
                                                                                                                                                                     {{ uo.nom }}
                                                                                                                                                                 </v-btn>
@@ -353,15 +374,16 @@
                                                                                                                                                 </v-expansion-panel-title>
                                                                                                                                                 <v-expansion-panel-text>
                                                                                                                                                 <!-- Niveau 7 -->
-                                                                                                                                                <div v-for="(uo, index) in uo.enfants" :key="index">
+                                                                                                                                                <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                                                                                                                                     <div v-if="uo.enfants.length === 0">
                                                                                                                                                         <div class="d-flex align-center">
                                                                                                                                                             <span class="spnalign"></span>
                                                                                                                                                             <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                                                                :id="`chkChoixUO${uo.id}`"
                                                                                                                                                                 density="compact"
                                                                                                                                                                 hide-details
                                                                                                                                                                 class="mt-0 pt-0 mr-2"
-                                                                                                                                                                @click.stop="choixMultiple(uo.id)"
+                                                                                                                                                                @click.stop="choixMultiple(uo)"
                                                                                                                                                             ></v-checkbox>
                                                                                                                                                             <v-tooltip :text="uo.description">
                                                                                                                                                                 <template v-slot:activator="{ props }">
@@ -370,7 +392,7 @@
                                                                                                                                                                         class="text-none text-subtitle-1 text-medium-emphasis"
                                                                                                                                                                         size="small"
                                                                                                                                                                         variant="flat"
-                                                                                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                                                                                        @click.stop="choix(uo)"
                                                                                                                                                                     >
                                                                                                                                                                         {{ uo.nom }}
                                                                                                                                                                     </v-btn>
@@ -384,10 +406,11 @@
                                                                                                                                                                 <v-expansion-panel-title>
                                                                                                                                                                     <div class="d-flex align-center">
                                                                                                                                                                         <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                                                            :id="`chkChoixUO${uo.id}`"
                                                                                                                                                                             density="compact"
                                                                                                                                                                             hide-details
                                                                                                                                                                             class="mt-0 pt-0 mr-2"
-                                                                                                                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                                                            @click.stop="choixMultiple(uo)"
                                                                                                                                                                         ></v-checkbox>
                                                                                                                                                                         <v-tooltip :text="uo.description">
                                                                                                                                                                             <template v-slot:activator="{ props }">
@@ -396,7 +419,7 @@
                                                                                                                                                                                     class="text-none text-subtitle-1"
                                                                                                                                                                                     size="small"
                                                                                                                                                                                     variant="flat"
-                                                                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                                                                    @click.stop="choix(uo)"
                                                                                                                                                                                 >
                                                                                                                                                                                     {{ uo.nom }}
                                                                                                                                                                                 </v-btn>
@@ -406,15 +429,16 @@
                                                                                                                                                                 </v-expansion-panel-title>
                                                                                                                                                                 <v-expansion-panel-text>
                                                                                                                                                                 <!-- Niveau 8 -->
-                                                                                                                                                                <div v-for="(uo, index) in uo.enfants" :key="index">
+                                                                                                                                                                <div v-for="(uo, index) in uo.enfants" :key="uo.id">
                                                                                                                                                                     <div v-if="uo.enfants.length === 0">
                                                                                                                                                                         <div class="d-flex align-center">
                                                                                                                                                                             <span class="spnalign"></span>
                                                                                                                                                                             <v-checkbox  v-if="modeChoix=='multiple'"
+                                                                                                                                                                                :id="`chkChoixUO${uo.id}`"
                                                                                                                                                                                 density="compact"
                                                                                                                                                                                 hide-details
                                                                                                                                                                                 class="mt-0 pt-0 mr-2"
-                                                                                                                                                                                @click.stop="choixMultiple(uo.id)"
+                                                                                                                                                                                @click.stop="choixMultiple(uo)"
                                                                                                                                                                             ></v-checkbox>
                                                                                                                                                                             <v-tooltip :text="uo.description">
                                                                                                                                                                                 <template v-slot:activator="{ props }">
@@ -423,7 +447,7 @@
                                                                                                                                                                                         class="text-none text-subtitle-1 text-medium-emphasis"
                                                                                                                                                                                         size="small"
                                                                                                                                                                                         variant="flat"
-                                                                                                                                                                                        @click.stop="choix(uo.id)"
+                                                                                                                                                                                        @click.stop="choix(uo)"
                                                                                                                                                                                     >
                                                                                                                                                                                         {{ uo.nom }}
                                                                                                                                                                                     </v-btn>
@@ -437,10 +461,11 @@
                                                                                                                                                                                 <v-expansion-panel-title>
                                                                                                                                                                                     <div class="d-flex align-center">
                                                                                                                                                                                         <v-checkbox v-if="modeChoix=='multiple'"
+                                                                                                                                                                                            :id="`chkChoixUO${uo.id}`"
                                                                                                                                                                                             density="compact"
                                                                                                                                                                                             hide-details
                                                                                                                                                                                             class="mt-0 pt-0 mr-2"
-                                                                                                                                                                                            @click.stop="choixMultiple(unitesOrg.id)"
+                                                                                                                                                                                            @click.stop="choixMultiple(uo)"
                                                                                                                                                                                         ></v-checkbox>
                                                                                                                                                                                         <v-tooltip :text="uo.description">
                                                                                                                                                                                             <template v-slot:activator="{ props }">
@@ -449,7 +474,7 @@
                                                                                                                                                                                                     class="text-none text-subtitle-1"
                                                                                                                                                                                                     size="small"
                                                                                                                                                                                                     variant="flat"
-                                                                                                                                                                                                    @click.stop="choix(uo.id)"
+                                                                                                                                                                                                    @click.stop="choix(uo)"
                                                                                                                                                                                                 >
                                                                                                                                                                                                     {{ uo.nom }}
                                                                                                                                                                                                 </v-btn>
@@ -527,6 +552,7 @@ if (props.uniteHorsVdL !== undefined) {
         buniteHorVdL = ref(true)    
     }
 }
+const emit = defineEmits(['choixUniteOrg'])
 const unitesOrgChoisies = ref([])
 const unitesOrgTree = ref([])
 const unitesOrgListe = await getUnitesOrgListe()
@@ -720,19 +746,42 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
     return aDummyTree
 }
 unitesOrgTree.value = transforUOListe2UOTree(unitesOrgListe)
-console.log(unitesOrgTree.value[0]) 
-
+console.log(unitesOrgTree.value) 
+const aChoixMultiple = ref([])
 
 const panelN0 = ref([0])
 const panelN1 = ref([])
 
 const unitesOrg = unitesOrgTree.value[0]
+let unitesOrgListeChoisi = []
 
-const choix = (i) => {
-    console.log('choix: ' + i)
+const choix = (uniteOrg) => {
+    const uoChoisie = {
+        id: uniteOrg.id,
+        nom: uniteOrg.nom,
+        description: uniteOrg.description,
+    }
+    emit('choixUniteOrg', JSON.stringify(uoChoisie))
+    console.log(JSON.stringify(uoChoisie))
 }
 
-const choixMultiple = (i) => {
-    console.log('choix multiple: ' + i)
+const choixMultiple = (uniteOrg) => {
+    if (document.getElementById(`chkChoixUO${uniteOrg.id}`).checked) {
+        if (unitesOrgListeChoisi.some(objet => objet.id === uniteOrg.id) === false) {
+            const uoChoisie = {
+                id: uniteOrg.id,
+                nom: uniteOrg.nom,
+                description: uniteOrg.description,
+            }
+            unitesOrgListeChoisi.push(uoChoisie)
+        }
+    } else {
+        unitesOrgListeChoisi = unitesOrgListeChoisi.filter(objet => objet.id !== uniteOrg.id)    
+    }
+}
+
+const choixTermine = () => {
+    emit('choixUniteOrg', JSON.stringify(unitesOrgListeChoisi))
+    console.log(JSON.stringify(unitesOrgListeChoisi))
 }
 </script>
