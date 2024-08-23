@@ -21,7 +21,7 @@
                         <v-expansion-panel-title>
                             <div class="d-flex align-center">
                                 <v-checkbox v-if="modeChoix=='multiple'"
-                                    :id="`chkChoixUO${uo.id}`"
+                                    v-model="uo.bcheck"
                                     density="compact"
                                     hide-details
                                     class="mt-0 pt-0 mr-2"
@@ -49,7 +49,7 @@
                                     <div class="d-flex align-center">
                                         <span class="spnalign"></span>
                                         <v-checkbox  v-if="modeChoix=='multiple'"
-                                            :id="`chkChoixUO${uo.id}`"
+                                            v-model="uo.bcheck"
                                             density="compact"
                                             hide-details
                                             class="mt-0 pt-0 mr-2"
@@ -76,7 +76,7 @@
                                             <v-expansion-panel-title>
                                                 <div class="d-flex align-center">
                                                     <v-checkbox v-if="modeChoix=='multiple'"
-                                                        :id="`chkChoixUO${uo.id}`" 
+                                                        v-model="uo.bcheck" 
                                                         density="compact"
                                                         hide-details
                                                         class="mt-0 pt-0 mr-2"
@@ -104,7 +104,7 @@
                                                         <div class="d-flex align-center">
                                                             <span class="spnalign"></span>
                                                             <v-checkbox  v-if="modeChoix=='multiple'"
-                                                                :id="`chkChoixUO${uo.id}`"
+                                                                v-model="uo.bcheck" 
                                                                 density="compact"
                                                                 hide-details
                                                                 class="mt-0 pt-0 mr-2"
@@ -131,7 +131,7 @@
                                                                 <v-expansion-panel-title>
                                                                     <div class="d-flex align-center">
                                                                         <v-checkbox v-if="modeChoix=='multiple'"
-                                                                            :id="`chkChoixUO${uo.id}`"
+                                                                            v-model="uo.bcheck" 
                                                                             density="compact"
                                                                             hide-details
                                                                             class="mt-0 pt-0 mr-2"
@@ -159,7 +159,7 @@
                                                                             <div class="d-flex align-center">
                                                                                 <span class="spnalign"></span>
                                                                                 <v-checkbox  v-if="modeChoix=='multiple'"
-                                                                                    :id="`chkChoixUO${uo.id}`"
+                                                                                    v-model="uo.bcheck"
                                                                                     density="compact"
                                                                                     hide-details
                                                                                     class="mt-0 pt-0 mr-2"
@@ -186,7 +186,7 @@
                                                                                     <v-expansion-panel-title>
                                                                                         <div class="d-flex align-center">
                                                                                             <v-checkbox v-if="modeChoix=='multiple'"
-                                                                                                :id="`chkChoixUO${uo.id}`"
+                                                                                                v-model="uo.bcheck"
                                                                                                 density="compact"
                                                                                                 hide-details
                                                                                                 class="mt-0 pt-0 mr-2"
@@ -214,7 +214,7 @@
                                                                                                 <div class="d-flex align-center">
                                                                                                     <span class="spnalign"></span>
                                                                                                     <v-checkbox  v-if="modeChoix=='multiple'"
-                                                                                                        :id="`chkChoixUO${uo.id}`"
+                                                                                                        v-model="uo.bcheck"
                                                                                                         density="compact"
                                                                                                         hide-details
                                                                                                         class="mt-0 pt-0 mr-2"
@@ -241,7 +241,7 @@
                                                                                                         <v-expansion-panel-title>
                                                                                                             <div class="d-flex align-center">
                                                                                                                 <v-checkbox v-if="modeChoix=='multiple'"
-                                                                                                                    :id="`chkChoixUO${uo.id}`"
+                                                                                                                    v-model="uo.bcheck"
                                                                                                                     density="compact"
                                                                                                                     hide-details
                                                                                                                     class="mt-0 pt-0 mr-2"
@@ -269,7 +269,7 @@
                                                                                                                     <div class="d-flex align-center">
                                                                                                                         <span class="spnalign"></span>
                                                                                                                         <v-checkbox  v-if="modeChoix=='multiple'"
-                                                                                                                            :id="`chkChoixUO${uo.id}`"
+                                                                                                                            v-model="uo.bcheck"
                                                                                                                             density="compact"
                                                                                                                             hide-details
                                                                                                                             class="mt-0 pt-0 mr-2"
@@ -296,7 +296,7 @@
                                                                                                                             <v-expansion-panel-title>
                                                                                                                                 <div class="d-flex align-center">
                                                                                                                                     <v-checkbox v-if="modeChoix=='multiple'"
-                                                                                                                                        :id="`chkChoixUO${uo.id}`"
+                                                                                                                                        v-model="uo.bcheck"
                                                                                                                                         density="compact"
                                                                                                                                         hide-details
                                                                                                                                         class="mt-0 pt-0 mr-2"
@@ -324,7 +324,7 @@
                                                                                                                                         <div class="d-flex align-center">
                                                                                                                                             <span class="spnalign"></span>
                                                                                                                                             <v-checkbox  v-if="modeChoix=='multiple'"
-                                                                                                                                                :id="`chkChoixUO${uo.id}`"
+                                                                                                                                                v-model="uo.bcheck"
                                                                                                                                                 density="compact"
                                                                                                                                                 hide-details
                                                                                                                                                 class="mt-0 pt-0 mr-2"
@@ -351,7 +351,7 @@
                                                                                                                                                 <v-expansion-panel-title>
                                                                                                                                                     <div class="d-flex align-center">
                                                                                                                                                         <v-checkbox v-if="modeChoix=='multiple'"
-                                                                                                                                                            :id="`chkChoixUO${uo.id}`"
+                                                                                                                                                            v-model="uo.bcheck"
                                                                                                                                                             density="compact"
                                                                                                                                                             hide-details
                                                                                                                                                             class="mt-0 pt-0 mr-2"
@@ -379,7 +379,7 @@
                                                                                                                                                         <div class="d-flex align-center">
                                                                                                                                                             <span class="spnalign"></span>
                                                                                                                                                             <v-checkbox  v-if="modeChoix=='multiple'"
-                                                                                                                                                                :id="`chkChoixUO${uo.id}`"
+                                                                                                                                                                v-model="uo.bcheck"
                                                                                                                                                                 density="compact"
                                                                                                                                                                 hide-details
                                                                                                                                                                 class="mt-0 pt-0 mr-2"
@@ -406,7 +406,7 @@
                                                                                                                                                                 <v-expansion-panel-title>
                                                                                                                                                                     <div class="d-flex align-center">
                                                                                                                                                                         <v-checkbox v-if="modeChoix=='multiple'"
-                                                                                                                                                                            :id="`chkChoixUO${uo.id}`"
+                                                                                                                                                                            v-model="uo.bcheck"
                                                                                                                                                                             density="compact"
                                                                                                                                                                             hide-details
                                                                                                                                                                             class="mt-0 pt-0 mr-2"
@@ -434,7 +434,7 @@
                                                                                                                                                                         <div class="d-flex align-center">
                                                                                                                                                                             <span class="spnalign"></span>
                                                                                                                                                                             <v-checkbox  v-if="modeChoix=='multiple'"
-                                                                                                                                                                                :id="`chkChoixUO${uo.id}`"
+                                                                                                                                                                                v-model="uo.bcheck"
                                                                                                                                                                                 density="compact"
                                                                                                                                                                                 hide-details
                                                                                                                                                                                 class="mt-0 pt-0 mr-2"
@@ -461,7 +461,7 @@
                                                                                                                                                                                 <v-expansion-panel-title>
                                                                                                                                                                                     <div class="d-flex align-center">
                                                                                                                                                                                         <v-checkbox v-if="modeChoix=='multiple'"
-                                                                                                                                                                                            :id="`chkChoixUO${uo.id}`"
+                                                                                                                                                                                            v-model="uo.bcheck"
                                                                                                                                                                                             density="compact"
                                                                                                                                                                                             hide-details
                                                                                                                                                                                             class="mt-0 pt-0 mr-2"
@@ -579,6 +579,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
             nom: dummyTreeN0[in0].nomuniteorg,
             description: dummyTreeN0[in0].descriptionuniteorg,
             bcache: dummyTreeN0[in0].bcache,
+            bcheck: false,
             enfants: []
         }
         aDummyTree.push(uoN0)
@@ -600,6 +601,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                 nom: dummyTreeN1[in1].nomuniteorg,
                 description: dummyTreeN1[in1].descriptionuniteorg,
                 bcache: dummyTreeN1[in1].bcache,
+                bcheck: false,
                 enfants: []
             }
             aDummyTree[in0].enfants.push(uoN1)
@@ -620,6 +622,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                     nom: dummyTreeN2[in2].nomuniteorg,
                     description: dummyTreeN2[in2].descriptionuniteorg,
                     bcache: dummyTreeN2[in2].bcache,
+                    bcheck: false,
                     enfants: []
                 }
                 aDummyTree[in0].enfants[in1].enfants.push(uoN2)
@@ -640,6 +643,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                         nom: dummyTreeN3[in3].nomuniteorg,
                         description: dummyTreeN3[in3].descriptionuniteorg,
                         bcache: dummyTreeN3[in3].bcache,
+                        bcheck: false,
                         enfants: []
                     }
                     aDummyTree[in0].enfants[in1].enfants[in2].enfants.push(uoN3)
@@ -660,6 +664,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                             nom: dummyTreeN4[in4].nomuniteorg,
                             description: dummyTreeN4[in4].descriptionuniteorg,
                             bcache: dummyTreeN4[in4].bcache,
+                            bcheck: false,
                             enfants: []
                         }
                         aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants.push(uoN4)
@@ -680,6 +685,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                                 nom: dummyTreeN5[in5].nomuniteorg,
                                 description: dummyTreeN5[in5].descriptionuniteorg,
                                 bcache: dummyTreeN5[in5].bcache,
+                                bcheck: false,
                                 enfants: []
                             }
                             aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants.push(uoN5)
@@ -700,6 +706,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                                     nom: dummyTreeN6[in6].nomuniteorg,
                                     description: dummyTreeN6[in6].descriptionuniteorg,
                                     bcache: dummyTreeN6[in6].bcache,
+                                    bcheck: false,
                                     enfants: []
                                 }
                                 aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants[in5].enfants.push(uoN6)
@@ -720,6 +727,7 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                                         nom: dummyTreeN7[in7].nomuniteorg,
                                         description: dummyTreeN7[in7].descriptionuniteorg,
                                         bcache: dummyTreeN7[in7].bcache,
+                                        bcheck: false,
                                         enfants: []
                                     }
                                     aDummyTree[in0].enfants[in1].enfants[in2].enfants[in3].enfants[in4].enfants[in5].enfants[in6].enfants.push(uoN7)
@@ -732,8 +740,6 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
                                         }
                                         return aels;
                                     }, [])
-                                    console.log(dummyTreeN7)
-
                                 }
                             }
                         }
@@ -756,17 +762,22 @@ const unitesOrg = unitesOrgTree.value[0]
 let unitesOrgListeChoisi = []
 
 const choix = (uniteOrg) => {
-    const uoChoisie = {
-        id: uniteOrg.id,
-        nom: uniteOrg.nom,
-        description: uniteOrg.description,
+    if (modeChoix.value == 'unique') {
+        const uoChoisie = {
+            id: uniteOrg.id,
+            nom: uniteOrg.nom,
+            description: uniteOrg.description,
+        }
+        emit('choixUniteOrg', JSON.stringify(uoChoisie))
+        //console.log(JSON.stringify(uoChoisie))
+    } else { //choix multiple, on se contente de faire comme quand le clic est fait sur la checkbox
+        choixMultiple(uniteOrg)
     }
-    emit('choixUniteOrg', JSON.stringify(uoChoisie))
-    //console.log(JSON.stringify(uoChoisie))
 }
 
 const choixMultiple = (uniteOrg) => {
-    if (document.getElementById(`chkChoixUO${uniteOrg.id}`).checked) {
+    uniteOrg.bcheck = !uniteOrg.bcheck
+    if (uniteOrg.bcheck) {
         if (unitesOrgListeChoisi.some(objet => objet.id === uniteOrg.id) === false) {
             const uoChoisie = {
                 id: uniteOrg.id,
