@@ -752,7 +752,6 @@ const transforUOListe2UOTree = (unitesOrgListe) => {
     return aDummyTree
 }
 unitesOrgTree.value = transforUOListe2UOTree(unitesOrgListe)
-console.log(unitesOrgTree.value) 
 const aChoixMultiple = ref([])
 
 const panelN0 = ref([0])
