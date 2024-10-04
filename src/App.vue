@@ -18,7 +18,7 @@ import UniteOrgChoix from './components/UniteOrgChoix.vue';
 const receptionUniteOrg = (jsonData) => {
   console.log(`Réception unité organisationnelle \njson: ${jsonData}`)
   if (window.opener && typeof window.opener.receptionUniteOrg24 === 'function') {
-    window.opener.receptionActeurs24(jsonData)
+    window.opener.receptionUniteOrg24(jsonData)
   }
 }
 </script>
